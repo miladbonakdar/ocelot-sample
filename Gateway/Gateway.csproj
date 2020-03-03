@@ -5,11 +5,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
+      <PackageReference Include="Ocelot" Version="14.0.11" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Ocelot" Version="14.0.11" />
+      <Content Remove="ocelot.json" />
+      <Resource Include="ocelot.json">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Resource>
     </ItemGroup>
 
 

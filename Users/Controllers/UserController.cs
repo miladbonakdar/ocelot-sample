@@ -16,21 +16,29 @@ namespace Users.Controllers
         {
             return new[]
             {
-                new User("milad", "bonakdar"),
-                new User("omid", "naghipoor"),
-                new User("rasoool", "ghana")
+                new User(1, "milad", "bonakdar"),
+                new User(2, "omid", "naghipoor"),
+                new User(3, "rasoool", "ghana")
             };
+        }
+
+        [HttpGet("{Id}")]
+        public User Get(int id)
+        {
+            return new User(id, "milad", "bonakdar");
         }
     }
 
     public class User
     {
-        public User(string name, string lastname)
+        public User(int id, string name, string lastname)
         {
+            Id = id;
             Name = name;
             Lastname = lastname;
         }
 
+        public int Id { get; }
         public string Name { get; }
         public string Lastname { get; }
     }

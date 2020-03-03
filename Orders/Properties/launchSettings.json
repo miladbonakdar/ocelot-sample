@@ -19,7 +19,7 @@
     },
     "Orders": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "Order",
       "applicationUrl": "https://localhost:6001;http://localhost:6000",
       "environmentVariables": {

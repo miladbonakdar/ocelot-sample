@@ -19,7 +19,7 @@
     },
     "Users": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "User",
       "applicationUrl": "https://localhost:7001;http://localhost:7000",
       "environmentVariables": {
