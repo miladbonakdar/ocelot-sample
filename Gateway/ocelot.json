@@ -10,10 +10,24 @@
         }
       ],
       "UpstreamPathTemplate": "/Order",
-      "DangerousAcceptAnyServerCertificateValidator" : true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "key": "Orders"
     },
     {
-      "DownstreamPathTemplate": "/User/{all}",
+      "DownstreamPathTemplate": "/Order/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6001
+        }
+      ],
+      "UpstreamPathTemplate": "/Order/{id}",
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "key": "Order"
+    },
+    {
+      "DownstreamPathTemplate": "/User/{id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -21,8 +35,48 @@
           "Port": 7001
         }
       ],
-      "UpstreamPathTemplate": "/User/{all}",
-      "DangerousAcceptAnyServerCertificateValidator" : true
+      "UpstreamPathTemplate": "/User/{id}",
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "Priority": "0",
+      "key": "User"
+    },
+    {
+      "DownstreamPathTemplate": "/User",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      "UpstreamPathTemplate": "/User",
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "Priority": "1",
+      "key": "Users"
+    }
+  ],
+  "Aggregates": [
+    {
+      "ReRouteKeys": [
+        "Users",
+        "Orders"
+      ],
+      "UpstreamPathTemplate": "/All"
+    },
+    {
+      "ReRouteKeys": [
+        "User",
+        "Order"
+      ],
+      "UpstreamPathTemplate": "/UserAndOrder/{id}"
+    },
+    {
+      "ReRouteKeys": [
+        "User",
+        "Order"
+      ],
+      "UpstreamPathTemplate": "/UserAndOrderCustom/{id}",
+      "Aggregator": "UserAndOrderCustomAggregator"
     }
   ],
   "GlobalConfiguration": {
