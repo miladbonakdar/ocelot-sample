@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Gateway.Models;
 using Ocelot.Middleware;
 using Ocelot.Middleware.Multiplexer;
 
@@ -20,22 +21,13 @@ namespace Gateway.Aggregator
                 .ReadAsStringAsync();
 
             var res = await Task.WhenAll(userTask, orderTask);
-            var user = res[0];
-            var order = res[1];
-
-            var contentBuilder = new StringBuilder();
-            contentBuilder.Append("{\"User\":");
-            contentBuilder.Append(user);
-            contentBuilder.Append(",\"Order\":");
-            contentBuilder.Append(order);
-            contentBuilder.Append("}");
-
-            var stringContent = new StringContent(contentBuilder.ToString())
+            var userOrderAggregate = new UserOrderAggregate
             {
-                Headers = {ContentType = new MediaTypeHeaderValue("application/json")}
+                Order = Order.Deserialize(res[1]),
+                User = User.Deserialize(res[0])
             };
 
-            return new DownstreamResponse(stringContent, HttpStatusCode.OK,
+            return new DownstreamResponse(userOrderAggregate.ToJsonStringContent(), HttpStatusCode.OK,
                 new List<KeyValuePair<string, IEnumerable<string>>>()
                 , "OK");
         }
